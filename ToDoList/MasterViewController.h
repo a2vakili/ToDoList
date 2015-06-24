@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddItemsViewControllerDelegate.h"
+@interface MasterViewController : UITableViewController<AddItemsViewControllerDelegate>
 
-@interface MasterViewController : UITableViewController
+
 
 @end
 

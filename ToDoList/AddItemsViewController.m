@@ -26,7 +26,12 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
-    self.itemDetails.text
+    ToDo *newToDoListItem = [[ToDo alloc] init];
+    newToDoListItem.title = self.itemTitle.text;
+    newToDoListItem.itemDescription = self.itemDetails.text;
+    newToDoListItem.priorityNumber = @([self.itemPriority.text intValue]);
+    [self.delegate makeNewToDoListItem:newToDoListItem];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

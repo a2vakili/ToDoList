@@ -10,6 +10,7 @@
 #import "DetailViewController.h"
 #import "ToDo.h"
 #import "ToDoCell.h"
+#import "AddItemsViewController.h"
 
 @interface MasterViewController ()
 
@@ -18,6 +19,25 @@
 @end
 
 @implementation MasterViewController
+
+- (IBAction)swipeToCrossOut:(id)sender {
+    UISwipeGestureRecognizer *swipeGesture = (UISwipeGestureRecognizer *)sender;
+    CGPoint cellLocation = [swipeGesture locationInView:self.tableView];
+    NSIndexPath *cellFromSwipe = [self.tableView indexPathForRowAtPoint:cellLocation];
+    
+    NSNumber *strikeSize = [NSNumber numberWithInt:2];
+    
+    NSDictionary *strikeThroughAttribute = [NSDictionary dictionaryWithObject:strikeSize
+                                                                       forKey:NSStrikethroughStyleAttributeName];
+
+    ToDoCell *cellToStrikethrough = (ToDoCell *)[self.tableView cellForRowAtIndexPath:cellFromSwipe];
+    NSString *stringToStrikeThrough = cellToStrikethrough.cellTitle.text;
+    NSAttributedString *strikeThroughText = [[NSAttributedString alloc] initWithString:stringToStrikeThrough
+                                                                            attributes:strikeThroughAttribute];
+
+    cellToStrikethrough.cellTitle.attributedText = strikeThroughText;
+    
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -61,10 +81,6 @@
         self.objects = [[NSMutableArray alloc] init];
     }
     [self performSegueWithIdentifier:@"addToDoItem" sender:sender];
-    
-//    [self.objects insertObject:[NSDate date] atIndex:0];
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Segues
@@ -76,7 +92,8 @@
         [[segue destinationViewController] setDetailItem:object];
     }
     if([[segue identifier] isEqualToString:@"addToDoItem"]) {
-        
+        AddItemsViewController *addItemsViewController = [segue destinationViewController];
+        addItemsViewController.delegate = self;
     }
 }
 
@@ -112,6 +129,12 @@
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
+}
+
+-(void)makeNewToDoListItem:(ToDo *)newToDoItem
+{
+    [self.objects addObject:newToDoItem];
+    [self.tableView reloadData];
 }
 
 @end

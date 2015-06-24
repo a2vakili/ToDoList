@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddItemsViewControllerDelegate.h"
+#import "ToDo.h"
 
-@interface AddItemsViewController : UIViewController
+@interface AddItemsViewController : UIViewController 
 @property (weak, nonatomic) IBOutlet UITextView *itemDetails;
 @property (weak, nonatomic) IBOutlet UITextField *itemPriority;
 @property (weak, nonatomic) IBOutlet UITextField *itemTitle;
+@property (nonatomic, assign) id<AddItemsViewControllerDelegate> delegate;
 
 @end

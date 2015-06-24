@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ToDo.h"
 
 @protocol AddItemsViewControllerDelegate <NSObject>
 
-
+-(void)makeNewToDoListItem:(ToDo *)newToDoItem;
 
 
 @end
