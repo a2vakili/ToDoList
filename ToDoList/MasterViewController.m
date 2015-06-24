@@ -8,10 +8,13 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "ToDo.h"
+#import "ToDoCell.h"
 
 @interface MasterViewController ()
 
 @property NSMutableArray *objects;
+
 @end
 
 @implementation MasterViewController
@@ -20,10 +23,29 @@
     [super awakeFromNib];
 }
 
+-(void)loadData {
+    self.objects = [[NSMutableArray alloc] init];
+    ToDo *toDoItem1 = [[ToDo alloc] init];
+    toDoItem1.title = @"code";
+    toDoItem1.itemDescription = @"code all day";
+    toDoItem1.priorityNumber = @1;
+    [self.objects addObject:toDoItem1];
+    ToDo *toDoItem2 = [[ToDo alloc] init];
+    toDoItem2.title = @"drink coffee";
+    toDoItem2.itemDescription = @"don't drink too much coffee";
+    toDoItem2.priorityNumber = @3;
+    [self.objects addObject:toDoItem2];
+    ToDo *toDoItem3 = [[ToDo alloc] init];
+    toDoItem3.title = @"sleep";
+    toDoItem3.itemDescription = @"try and sleep";
+    toDoItem3.priorityNumber = @2;
+    [self.objects addObject:toDoItem3];
+    NSLog(@"objects array: %@", self.objects);
+}
 - (void)viewDidLoad {
+    [self loadData];
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+   // self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -38,9 +60,11 @@
     if (!self.objects) {
         self.objects = [[NSMutableArray alloc] init];
     }
-    [self.objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self performSegueWithIdentifier:@"addToDoItem" sender:sender];
+    
+//    [self.objects insertObject:[NSDate date] atIndex:0];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Segues
@@ -48,8 +72,11 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = self.objects[indexPath.row];
+        ToDo *object = self.objects[indexPath.row];
         [[segue destinationViewController] setDetailItem:object];
+    }
+    if([[segue identifier] isEqualToString:@"addToDoItem"]) {
+        
     }
 }
 
@@ -63,11 +90,13 @@
     return self.objects.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-
-    NSDate *object = self.objects[indexPath.row];
-    cell.textLabel.text = [object description];
+- (ToDoCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    ToDoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ToDoCell" forIndexPath:indexPath];
+    
+    ToDo *object = self.objects[indexPath.row];
+    cell.cellTitle.text = [object title];
+    cell.itemDescription.text = [object itemDescription];
+    cell.priority.text = [[object priorityNumber] stringValue];
     return cell;
 }
 
