@@ -10,7 +10,5 @@
 #import "AddItemsViewControllerDelegate.h"
 @interface MasterViewController : UITableViewController<AddItemsViewControllerDelegate>
 
-
-
 @end
 

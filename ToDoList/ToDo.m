@@ -10,4 +10,13 @@
 
 @implementation ToDo
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _priorityNumber = @3;
+    }
+    return self;
+}
+
 @end

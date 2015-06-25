@@ -12,7 +12,10 @@
 
 @interface AddItemsViewController : UIViewController 
 @property (weak, nonatomic) IBOutlet UITextView *itemDetails;
-@property (weak, nonatomic) IBOutlet UITextField *itemPriority;
+
+@property (weak, nonatomic) IBOutlet UISegmentedControl *setPriority;
+
+@property (strong, nonatomic) NSNumber *itemPriority;
 @property (weak, nonatomic) IBOutlet UITextField *itemTitle;
 @property (nonatomic, assign) id<AddItemsViewControllerDelegate> delegate;
 

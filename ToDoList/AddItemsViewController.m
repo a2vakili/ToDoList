@@ -29,11 +29,25 @@
     ToDo *newToDoListItem = [[ToDo alloc] init];
     newToDoListItem.title = self.itemTitle.text;
     newToDoListItem.itemDescription = self.itemDetails.text;
-    newToDoListItem.priorityNumber = @([self.itemPriority.text intValue]);
+    [self setPriorityLevel];
+    newToDoListItem.priorityNumber = self.itemPriority;
     [self.delegate makeNewToDoListItem:newToDoListItem];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
+-(void)setPriorityLevel {
+    if(self.setPriority.selectedSegmentIndex == 2){
+        self.itemPriority = @1;
+    }
+    else if (self.setPriority.selectedSegmentIndex == 1) {
+        self.itemPriority = @2;
+    }
+    else {
+        self.itemPriority = @3;
+    }
+    
+}
 
 /*
 #pragma mark - Navigation
